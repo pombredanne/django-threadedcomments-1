@@ -1,20 +1,37 @@
 #!/usr/bin/env python
 from setuptools import setup, find_packages
+from os import path
+import codecs
+import re
+
+
+def read(*parts):
+    file_path = path.join(path.dirname(__file__), *parts)
+    return codecs.open(file_path, encoding='utf-8').read()
+
+
+def find_version(*parts):
+    version_file = read(*parts)
+    version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", version_file, re.M)
+    if version_match:
+        return str(version_match.group(1))
+    raise RuntimeError("Unable to find version string.")
+
 
 setup(
     name='django-threadedcomments',
-    version='0.9',
+    version=find_version('threadedcomments', '__init__.py'),
     license='BSD',
 
     description='A simple yet flexible threaded commenting system.',
-    long_description=open('README.rst').read(),
+    long_description=read('README.rst'),
     keywords='django,comments,threading',
 
     author='Eric Florenzano',
     author_email='floguy@gmail.com',
 
-    maintainer='Honza Kral',
-    maintainer_email='honza.kral@gmail.com',
+    maintainer='Diederik van der Boor',
+    maintainer_email='vdboor@edoburu.nl',
 
     url='https://github.com/HonzaKral/django-threadedcomments',
     download_url='https://github.com/HonzaKral/django-threadedcomments/zipball/master',
